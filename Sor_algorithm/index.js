@@ -45,21 +45,36 @@ class CArray {
         //min来标记最小元素的位置
         let min,
             len = this.dataStore.length;
-        for (let i = 0; i<= len - 2; i++){
+        for (let i = 0; i <= len - 2; i++) {
             min = i;
-            for(let j = i+1; j<=len -1; j++) {
+            for (let j = i + 1; j <= len - 1; j++) {
                 //每次和最小的元素比较
-                if(this.dataStore[j] <  this.dataStore[min]){
+                if (this.dataStore[j] < this.dataStore[min]) {
                     min = j;
                 }
             }
             this.swap(this.dataStore, min, i)
         }
     }
+
+    insertion() {
+        let temp, inner, outer,
+            len = this.dataStore.length;
+        for (outer = 1; outer <= len - 1; outer++) {
+            temp = this.dataStore[outer];
+            inner = outer;
+            while (inner > 0 && this.dataStore[inner - 1] > temp) {
+                this.dataStore[inner] = this.dataStore[inner - 1];
+                inner--;
+            }
+            this.dataStore[inner] = temp;
+        }
+        return this.dataStore;
+    }
 }
 
 let myNums = new CArray(10);
 myNums.setData();
 console.log(myNums.show());
-myNums.selectionSort();
+myNums.insertion();
 console.log(myNums.show());

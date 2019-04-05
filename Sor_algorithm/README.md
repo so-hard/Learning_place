@@ -40,5 +40,30 @@
             }
             [arr[min], arr[i]] = [arr[i], arr[min]]
         }
+        return arr
     }
     ```
+
+## 插入排序
+
+1. 通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。具体看下面git
+
+    ![demo](source/insertionSort.gif)
+
+2. 将要比较的元素赋值给`temp`,将已经排序好的元素跟`temp`进行比较,如果大于`temp`就将该元素右移动,为`temp`让出位置.
+
+    ```js
+        function (arr) {
+            let temp, j,
+                len = arr.length;
+            for (let i = 1; i <= len - 1; i++){
+                temp = arr[i];
+                j= i;
+                while(j > 0 && arr[j - 1] > temp){
+                    arr[j] = arr[j - 1]
+                    j--;
+                }
+                arr[j] = temp;
+            }
+            return arr;
+        }
