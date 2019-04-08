@@ -3,11 +3,12 @@ class CArray {
         this.dataStore = [];
         this.pos = 0;
         this.numElements = numElements;
+        this.gaps = [5, 3, 1];
     }
 
     setData() {
         for (let i = 0; i < this.numElements; i++) {
-            this.dataStore[i] = Math.floor(Math.random() * (100 + 1))
+            this.dataStore[i] = Math.floor(Math.random() * (1000 + 1))
             // this.dataStore[i] = Math.random()*(100)
         }
     }
@@ -26,6 +27,14 @@ class CArray {
             }
         }
         return restr;
+    }
+
+    showRunTime(fun) {
+        this.setData();
+        let start = new Date().getTime();
+        fun.call(nums);
+        let stop = new Date().getTime();
+        console.log(`用时${stop - start}`);
     }
     // 冒泡排序 
     // 每次都是相邻的两个数比较
@@ -71,10 +80,41 @@ class CArray {
         }
         return this.dataStore;
     }
-}
 
-let myNums = new CArray(10);
-myNums.setData();
-console.log(myNums.show());
-myNums.insertion();
-console.log(myNums.show());
+    shellSort() {
+        let i, j;
+        for (let g = 0; g < this.gaps.length; ++g) {
+            for (i = this.gaps[g]; i < this.numElements; i++) {
+                let temp = this.dataStore[i];
+                for (j = i;
+                    j >= this.gaps[g] && this.dataStore[j - this.gaps[g]] > temp;
+                    j -= this.gaps[g]) {
+                    this.dataStore[j] = this.dataStore[j - this.gaps[g]];
+                }
+                this.dataStore[j] = temp;
+            }
+        }
+    }
+
+    shellSortT() {
+        let h = 1;
+        while (h < this.numElements) {
+            h = 3 * h + 1
+        }
+        while (h >= 1) {
+            for (let i = h; i < this.numElements; i++) {
+                for (let j = i; j >= h && this.dataStore[j] < this.dataStore[j - h];j-=h) {
+                    this.swap(this.dataStore, j, j - h)
+                }
+            }
+            h = (h - 1) / 3
+        }
+        // console.log(h);
+    }
+}
+var numElements = 50000;
+var nums = new CArray(numElements);
+nums.showRunTime(nums.shellSortT);
+nums.showRunTime(nums.shellSort);
+// nums.shellSortT()
+
